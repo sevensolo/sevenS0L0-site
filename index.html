@@ -5,33 +5,119 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>sevenS0L0 TikTok Demo</title>
   <style>
+    /* Global Styles */
+    * {
+      box-sizing: border-box;
+    }
     body {
-      font-family: Arial, sans-serif;
-      margin: 0; padding: 0;
-      display: flex; flex-direction: column;
+      margin: 0;
+      font-family: "Inter", Arial, sans-serif;
+      background: #fdfdfd;
+      color: #222;
+      display: flex;
+      flex-direction: column;
       min-height: 100vh;
-      background: #f9f9f9;
     }
-    header, footer {
-      background: #111; color: white; padding: 1rem; text-align: center;
+
+    header {
+      background: #111;
+      color: #fff;
+      padding: 1rem 2rem;
+      text-align: center;
     }
+    header h1 {
+      margin: 0;
+      font-size: 1.5rem;
+    }
+
     main {
-      flex: 1; display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      text-align: center; padding: 2rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      text-align: center;
     }
+
     button {
-      background: #69C9D0; border: none;
-      padding: 1rem 2rem; border-radius: 8px;
-      font-size: 1rem; cursor: pointer;
-      color: white; font-weight: bold;
+      background: #69C9D0;
+      border: none;
+      padding: 0.9rem 1.8rem;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 600;
+      color: white;
+      cursor: pointer;
+      margin-top: 1rem;
+      transition: background 0.25s ease;
     }
+    button:hover {
+      background: #55a8af;
+    }
+
     #output {
-      margin-top: 1.5rem; padding: 1rem;
-      background: #eee; border-radius: 8px;
-      max-width: 600px; word-wrap: break-word;
+      margin-top: 2rem;
+      padding: 1.5rem;
+      background: #f1f3f5;
+      border-radius: 12px;
+      max-width: 700px;
+      width: 100%;
+      text-align: left;
+      font-size: 0.95rem;
+      line-height: 1.5;
     }
-    a { color: #69C9D0; text-decoration: none; }
+    #output strong {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-size: 1rem;
+    }
+    #copyBtn {
+      background: #333;
+      margin-top: 0.8rem;
+      font-size: 0.9rem;
+    }
+
+    footer {
+      background: #111;
+      color: #ccc;
+      text-align: center;
+      padding: 1rem;
+    }
+    footer a {
+      color: #69C9D0;
+      text-decoration: none;
+      margin: 0 0.5rem;
+      font-size: 0.9rem;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* Toast Notification */
+    #toast {
+      visibility: hidden;
+      min-width: 260px;
+      background-color: #28a745;
+      color: #fff;
+      text-align: center;
+      border-radius: 10px;
+      padding: 1rem;
+      position: fixed;
+      z-index: 1000;
+      left: 50%;
+      bottom: 30px;
+      transform: translateX(-50%);
+      font-size: 0.95rem;
+      opacity: 0;
+      transition: opacity 0.5s, bottom 0.5s;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    #toast.show {
+      visibility: visible;
+      opacity: 1;
+      bottom: 50px;
+    }
   </style>
 </head>
 <body>
@@ -40,7 +126,7 @@
   </header>
 
   <main>
-    <p>Click below to log in with TikTok:</p>
+    <p>Click below to authenticate with TikTok:</p>
     <button id="loginBtn">Log in with TikTok</button>
 
     <div id="output"></div>
@@ -50,27 +136,43 @@
     <a href="terms.md">Terms</a> | <a href="privacy.md">Privacy</a>
   </footer>
 
+  <!-- Toast -->
+  <div id="toast">OAuth Code copied to clipboard!</div>
+
   <script>
-    const clientKey = "awawqfqioo1vqlws"; // <-- replace with your actual TikTok client key
+    const clientKey = "awawqfqioo1vqlws"; // <-- replace with your TikTok client key
     const redirectUri = "https://sevensolo.github.io/sevenS0L0-site/";
 
-    // Handle login click
+    // Handle login
     document.getElementById("loginBtn").addEventListener("click", () => {
       const authUrl = `https://www.tiktok.com/v2/auth/authorize/?client_key=${clientKey}&response_type=code&scope=user.info.basic&redirect_uri=${encodeURIComponent(redirectUri)}&state=demo123`;
       window.location.href = authUrl;
     });
 
-    // Extract "code" from redirect URL
+    // Extract "code" from URL
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get("code");
     const state = urlParams.get("state");
+
     if (code) {
-      document.getElementById("output").innerHTML = `
-        ✅ TikTok Login Successful!<br/><br/>
-        <strong>Returned OAuth Code:</strong><br/>
-        ${code}<br/><br/>
-        <em>State:</em> ${state}
+      const outputDiv = document.getElementById("output");
+      outputDiv.innerHTML = `
+        <strong>✅ TikTok Login Successful</strong>
+        <div><b>OAuth Code:</b><br><span id="codeText">${code}</span></div>
+        <div><b>State:</b> ${state}</div>
+        <button id="copyBtn">Copy Code</button>
       `;
+
+      document.getElementById("copyBtn").addEventListener("click", () => {
+        const codeText = document.getElementById("codeText").innerText;
+        navigator.clipboard.writeText(codeText).then(() => {
+          const toast = document.getElementById("toast");
+          toast.className = "show";
+          setTimeout(() => {
+            toast.className = toast.className.replace("show", "");
+          }, 2500);
+        });
+      });
     }
   </script>
 </body>
