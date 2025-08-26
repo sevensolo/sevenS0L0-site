@@ -1,7 +1,38 @@
-# sevenS0L0 App
-Welcome!  
-This project connects with TikTok, Meta, and YouTube to automate workflows and manage media content.  
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>sevens0L0 • TikTok Demo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body{font-family:system-ui,Arial,sans-serif;max-width:720px;margin:40px auto;padding:0 16px;line-height:1.5}
+    .card{border:1px solid #e5e7eb;border-radius:16px;padding:20px}
+    a.button{display:inline-block;padding:12px 16px;border-radius:999px;border:1px solid #111;text-decoration:none}
+    code{background:#f6f8fa;padding:2px 6px;border-radius:6px}
+  </style>
+</head>
+<body>
+  <h1>sevens0L0 — TikTok Content Posting API demo</h1>
+  <p>This page demonstrates TikTok OAuth and Direct Post init from our verified domain.</p>
 
-- 📄 [Privacy Policy](privacy.md)  
-- 📄 [Terms of Service](terms.md)  
-- 📄 [Documentation](README.md)
+  <div class="card">
+    <h2>1) Login with TikTok</h2>
+    <p>Opens TikTok OAuth v2, requests minimal scopes (e.g., <code>video.publish</code>, <code>user.info.basic</code> if needed).</p>
+    <!-- Replace YOUR_CLIENT_KEY and REDIRECT with your actual values registered in TikTok Dev Portal -->
+    <a class="button" href="https://www.tiktok.com/v2/auth/authorize/?client_key=YOUR_CLIENT_KEY&scope=video.publish%2Cuser.info.basic&response_type=code&redirect_uri=https%3A%2F%2Fsevensolo.github.io%2FsevenS0L0-site%2Foauth.html&state=demo">
+      Login with TikTok
+    </a>
+    <p>After consent, TikTok redirects to <code>/oauth.html?code=...</code></p>
+  </div>
+
+  <div class="card">
+    <h2>2) Direct Post (demo)</h2>
+    <p>Use this helper page to copy curl commands and test in Sandbox:</p>
+    <a class="button" href="./upload-demo.html">Open Direct Post helper</a>
+  </div>
+
+  <p><small>
+    Terms: <a href="./terms.md">terms</a> • Privacy: <a href="./privacy.md">privacy</a>
+  </small></p>
+</body>
+</html>
