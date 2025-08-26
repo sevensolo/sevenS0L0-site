@@ -1,85 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SevenSolo TikTok Integration Demo</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>sevenS0L0 TikTok Demo</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #f9f9f9;
-      color: #333;
-      display: flex;
-      flex-direction: column;
+      margin: 0; padding: 0;
+      display: flex; flex-direction: column;
       min-height: 100vh;
+      background: #f9f9f9;
     }
     header, footer {
-      background: #111;
-      color: #fff;
-      padding: 15px;
-      text-align: center;
+      background: #111; color: white; padding: 1rem; text-align: center;
     }
     main {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 30px;
+      flex: 1; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center; padding: 2rem;
     }
-    h1 {
-      margin-bottom: 20px;
+    button {
+      background: #69C9D0; border: none;
+      padding: 1rem 2rem; border-radius: 8px;
+      font-size: 1rem; cursor: pointer;
+      color: white; font-weight: bold;
     }
-    .btn {
-      background-color: #fe2c55;
-      color: #fff;
-      border: none;
-      padding: 12px 25px;
-      font-size: 16px;
-      border-radius: 5px;
-      cursor: pointer;
-      text-decoration: none;
-      transition: background 0.3s ease;
+    #output {
+      margin-top: 1.5rem; padding: 1rem;
+      background: #eee; border-radius: 8px;
+      max-width: 600px; word-wrap: break-word;
     }
-    .btn:hover {
-      background-color: #d62648;
-    }
-    .links {
-      margin-top: 20px;
-    }
-    .links a {
-      margin: 0 10px;
-      text-decoration: none;
-      color: #fe2c55;
-    }
-    .links a:hover {
-      text-decoration: underline;
-    }
+    a { color: #69C9D0; text-decoration: none; }
   </style>
 </head>
 <body>
   <header>
-    <h2>SevenSolo TikTok Integration Demo</h2>
+    <h1>sevenS0L0 TikTok Integration Demo</h1>
   </header>
 
   <main>
-    <h1>Login with TikTok</h1>
-    <p>Click below to test TikTok Login Kit integration:</p>
-    <a class="btn" 
-       href="https://www.tiktok.com/v2/auth/authorize/?client_key=awawqfqioo1vqlws&scope=user.info.basic&response_type=code&redirect_uri=https://sevensolo.github.io/sevenS0L0-site/">
-       Log in with TikTok
-    </a>
+    <p>Click below to log in with TikTok:</p>
+    <button id="loginBtn">Log in with TikTok</button>
 
-    <div class="links">
-      <a href="privacy.md">Privacy Policy</a> | 
-      <a href="terms.md">Terms of Service</a>
-    </div>
+    <div id="output"></div>
   </main>
 
   <footer>
-    <p>© 2025 SevenSolo Demo</p>
+    <a href="terms.md">Terms</a> | <a href="privacy.md">Privacy</a>
   </footer>
+
+  <script>
+    const clientKey = "awawqfqioo1vqlws"; // <-- replace with your actual TikTok client key
+    const redirectUri = "https://sevensolo.github.io/sevenS0L0-site/";
+
+    // Handle login click
+    document.getElementById("loginBtn").addEventListener("click", () => {
+      const authUrl = `https://www.tiktok.com/v2/auth/authorize/?client_key=${clientKey}&response_type=code&scope=user.info.basic&redirect_uri=${encodeURIComponent(redirectUri)}&state=demo123`;
+      window.location.href = authUrl;
+    });
+
+    // Extract "code" from redirect URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get("code");
+    const state = urlParams.get("state");
+    if (code) {
+      document.getElementById("output").innerHTML = `
+        ✅ TikTok Login Successful!<br/><br/>
+        <strong>Returned OAuth Code:</strong><br/>
+        ${code}<br/><br/>
+        <em>State:</em> ${state}
+      `;
+    }
+  </script>
 </body>
 </html>
