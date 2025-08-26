@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Direct Post helper — sevens0L0</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body{font-family:system-ui,Arial,sans-serif;max-width:900px;margin:40px auto;padding:0 16px}
+    textarea, input{width:100%} pre{background:#f6f8fa;padding:12px;border-radius:8px;overflow:auto}
+    .grid{display:grid;gap:16px}
+  </style>
+</head>
+<body>
+  <h1>Direct Post helper (Sandbox)</h1>
+  <p>1) Host a demo MP4 at <code>./assets/demo.mp4</code> in this repo.</p>
+  <p>2) Exchange your OAuth <code>code</code> for <code>access_token</code> (use Postman/Terminal).</p>
+  <p>3) Use the curl below to init a post with <code>PULL_FROM_URL</code>.</p>
+
+  <div class="grid">
+    <label>Access Token (paste from token exchange)
+      <input id="act" placeholder="act.xxx...">
+    </label>
+    <label>Title
+      <input id="title" value="This 1% habit builds wealth #money #motivation">
+    </label>
+    <label>Video URL (on verified domain)
+      <input id="vurl" value="https://sevensolo.github.io/sevenS0L0-site/assets/demo.mp4">
+    </label>
+  </div>
+
+  <h2>curl — Direct Post init</h2>
+  <pre id="curlInit"></pre>
+
+  <h2>curl — Check status</h2>
+  <pre>curl --location 'https://open.tiktokapis.com/v2/post/publish/status/fetch/' \
+  --header "Authorization: Bearer ACT_TOKEN_HERE" \
+  --header 'Content-Type: application/json; charset=UTF-8' \
+  --data '{ "publish_id": "REPLACE_WITH_PUBLISH_ID" }'</pre>
+
+  <script>
+    const elACT = document.getElementById('act');
+    const elTitle = document.getElementById('title');
+    const elVURL = document.getElementById('vurl');
+    const out = document.getElementById('curlInit');
+    const render = () => {
+      const act = (elACT.value || 'ACT_TOKEN_HERE').trim();
+      const title = elTitle.value.replace(/"/g,'\\"');
+      const vurl = elVURL.value.trim();
+      out.textContent =
+`curl --location 'https://open.tiktokapis.com/v2/post/publish/video/init/' \\
+  --header "Authorization: Bearer ${act}" \\
+  --header 'Content-Type: application/json; charset=UTF-8' \\
+  --data-raw '{
+    "post_info": {
+      "title": "${title}",
+      "privacy_level": "SELF_ONLY",
+      "disable_duet": false,
+      "disable_comment": false,
+      "disable_stitch": false,
+      "video_cover_timestamp_ms": 1000
+    },
+    "source_info": {
+      "source": "PULL_FROM_URL",
+      "video_url": "${vurl}"
+    }
+  }'`;
+    };
+    [elACT, elTitle, elVURL].forEach(i=>i.addEventListener('input', render));
+    render();
+  </script>
+
+  <p><small>Docs: Get started (Direct Post) & verified URL requirements. Status fetch completes the flow. Sandbox posts aren’t public, which is expected during review.</small></p>
+</body>
+</html>
