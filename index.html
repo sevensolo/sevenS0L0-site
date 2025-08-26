@@ -26,7 +26,6 @@
       font-size: 1rem; cursor: pointer;
       color: white; font-weight: bold;
       margin-top: 1rem;
-      transition: 0.2s;
     }
     button:hover {
       opacity: 0.9;
@@ -40,30 +39,6 @@
       background: #444; margin-top: 0.5rem;
     }
     a { color: #69C9D0; text-decoration: none; }
-
-    /* Toast notification */
-    #toast {
-      visibility: hidden;
-      min-width: 250px;
-      background-color: #28a745;
-      color: #fff;
-      text-align: center;
-      border-radius: 8px;
-      padding: 1rem;
-      position: fixed;
-      z-index: 1000;
-      left: 50%;
-      bottom: 30px;
-      transform: translateX(-50%);
-      font-size: 1rem;
-      opacity: 0;
-      transition: opacity 0.5s, bottom 0.5s;
-    }
-    #toast.show {
-      visibility: visible;
-      opacity: 1;
-      bottom: 50px;
-    }
   </style>
 </head>
 <body>
@@ -81,9 +56,6 @@
   <footer>
     <a href="terms.md">Terms</a> | <a href="privacy.md">Privacy</a>
   </footer>
-
-  <!-- Toast container -->
-  <div id="toast">OAuth Code copied to clipboard!</div>
 
   <script>
     const clientKey = "awawqfqioo1vqlws"; // <-- replace with your actual TikTok client key
@@ -109,13 +81,11 @@
         <button id="copyBtn">Copy Code</button>
       `;
 
-      // Copy functionality with toast
+      // Add copy functionality
       document.getElementById("copyBtn").addEventListener("click", () => {
         const codeText = document.getElementById("codeText").innerText;
         navigator.clipboard.writeText(codeText).then(() => {
-          const toast = document.getElementById("toast");
-          toast.className = "show";
-          setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 2500);
+          alert("OAuth Code copied to clipboard!");
         });
       });
     }
