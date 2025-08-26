@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>OAuth Callback — sevens0L0</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>body{font-family:system-ui,Arial,sans-serif;max-width:720px;margin:40px auto;padding:0 16px}</style>
+</head>
+<body>
+  <h1>OAuth Callback</h1>
+  <p>This page displays the authorization <code>code</code> returned by TikTok (for demo).</p>
+  <pre id="out"></pre>
+  <script>
+    const params = new URLSearchParams(location.search);
+    const code = params.get('code');
+    const state = params.get('state');
+    document.getElementById('out').textContent =
+`code: ${code || '(none)'}
+state: ${state || '(none)'}
+Next step: exchange the code for an access_token via POST https://open.tiktokapis.com/v2/oauth/token/`;
+  </script>
+  <p><a href="./upload-demo.html">Continue to Direct Post helper</a></p>
+</body>
+</html>
