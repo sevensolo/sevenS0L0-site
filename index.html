@@ -1,38 +1,85 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <title>sevens0L0 • TikTok Demo</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SevenSolo TikTok Integration Demo</title>
   <style>
-    body{font-family:system-ui,Arial,sans-serif;max-width:720px;margin:40px auto;padding:0 16px;line-height:1.5}
-    .card{border:1px solid #e5e7eb;border-radius:16px;padding:20px}
-    a.button{display:inline-block;padding:12px 16px;border-radius:999px;border:1px solid #111;text-decoration:none}
-    code{background:#f6f8fa;padding:2px 6px;border-radius:6px}
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f9f9f9;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    header, footer {
+      background: #111;
+      color: #fff;
+      padding: 15px;
+      text-align: center;
+    }
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 30px;
+    }
+    h1 {
+      margin-bottom: 20px;
+    }
+    .btn {
+      background-color: #fe2c55;
+      color: #fff;
+      border: none;
+      padding: 12px 25px;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.3s ease;
+    }
+    .btn:hover {
+      background-color: #d62648;
+    }
+    .links {
+      margin-top: 20px;
+    }
+    .links a {
+      margin: 0 10px;
+      text-decoration: none;
+      color: #fe2c55;
+    }
+    .links a:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
-  <h1>sevens0L0 — TikTok Content Posting API demo</h1>
-  <p>This page demonstrates TikTok OAuth and Direct Post init from our verified domain.</p>
+  <header>
+    <h2>SevenSolo TikTok Integration Demo</h2>
+  </header>
 
-  <div class="card">
-    <h2>1) Login with TikTok</h2>
-    <p>Opens TikTok OAuth v2, requests minimal scopes (e.g., <code>video.publish</code>, <code>user.info.basic</code> if needed).</p>
-    <!-- Replace YOUR_CLIENT_KEY and REDIRECT with your actual values registered in TikTok Dev Portal -->
-    <a class="button" href="https://www.tiktok.com/v2/auth/authorize/?client_key=awawqfqioo1vqlws&scope=video.publish%2Cuser.info.basic&response_type=code&redirect_uri=https%3A%2F%2Fsevensolo.github.io%2FsevenS0L0-site%2Foauth.html&state=demo">
-      Login with TikTok
+  <main>
+    <h1>Login with TikTok</h1>
+    <p>Click below to test TikTok Login Kit integration:</p>
+    <a class="btn" 
+       href="https://www.tiktok.com/v2/auth/authorize/?client_key=awawqfqioo1vqlws&scope=user.info.basic&response_type=code&redirect_uri=https://sevensolo.github.io/sevenS0L0-site/">
+       Log in with TikTok
     </a>
-    <p>After consent, TikTok redirects to <code>/oauth.html?code=...</code></p>
-  </div>
 
-  <div class="card">
-    <h2>2) Direct Post (demo)</h2>
-    <p>Use this helper page to copy curl commands and test in Sandbox:</p>
-    <a class="button" href="./upload-demo.html">Open Direct Post helper</a>
-  </div>
+    <div class="links">
+      <a href="privacy.md">Privacy Policy</a> | 
+      <a href="terms.md">Terms of Service</a>
+    </div>
+  </main>
 
-  <p><small>
-    Terms: <a href="./terms.md">terms</a> • Privacy: <a href="./privacy.md">privacy</a>
-  </small></p>
+  <footer>
+    <p>© 2025 SevenSolo Demo</p>
+  </footer>
 </body>
 </html>
