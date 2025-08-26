@@ -25,11 +25,18 @@
       padding: 1rem 2rem; border-radius: 8px;
       font-size: 1rem; cursor: pointer;
       color: white; font-weight: bold;
+      margin-top: 1rem;
+    }
+    button:hover {
+      opacity: 0.9;
     }
     #output {
       margin-top: 1.5rem; padding: 1rem;
       background: #eee; border-radius: 8px;
       max-width: 600px; word-wrap: break-word;
+    }
+    #copyBtn {
+      background: #444; margin-top: 0.5rem;
     }
     a { color: #69C9D0; text-decoration: none; }
   </style>
@@ -65,12 +72,22 @@
     const code = urlParams.get("code");
     const state = urlParams.get("state");
     if (code) {
-      document.getElementById("output").innerHTML = `
+      const outputDiv = document.getElementById("output");
+      outputDiv.innerHTML = `
         ✅ TikTok Login Successful!<br/><br/>
         <strong>Returned OAuth Code:</strong><br/>
-        ${code}<br/><br/>
-        <em>State:</em> ${state}
+        <span id="codeText">${code}</span><br/><br/>
+        <em>State:</em> ${state}<br/>
+        <button id="copyBtn">Copy Code</button>
       `;
+
+      // Add copy functionality
+      document.getElementById("copyBtn").addEventListener("click", () => {
+        const codeText = document.getElementById("codeText").innerText;
+        navigator.clipboard.writeText(codeText).then(() => {
+          alert("OAuth Code copied to clipboard!");
+        });
+      });
     }
   </script>
 </body>
